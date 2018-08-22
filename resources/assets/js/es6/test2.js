@@ -205,24 +205,26 @@ let searching = {
                 searching.input.value = '';
 
             } else {
-                searching.tagsCount++;
-                searching.tagsDataNames.unshift(searching.input.value);
-                let txt = searching.input.value;
-                let div = document.createElement('div');
-                let span = document.createElement('span');
-                div.setAttribute('data-name' , txt);
-                span.innerHTML = txt;
-                let x = document.createElement('span');
-                x.setAttribute('class' , 'remove');
-                x.innerHTML = 'x';
-                x.addEventListener('click' , function (event) {
-                    searching.remove(event);
-                });
-                div.appendChild(span);
-                div.appendChild(x);
-                document.getElementById('tags').prepend(div);
-                searching.input.value = '';
+                if(searching.input.value.trim() !== '' && searching.input.value.trim() !== ' ') {
+                    searching.tagsCount++;
+                    searching.tagsDataNames.unshift(searching.input.value);
+                    let txt = searching.input.value;
+                    let div = document.createElement('div');
+                    let span = document.createElement('span');
+                    div.setAttribute('data-name' , txt);
+                    span.innerHTML = txt;
+                    let x = document.createElement('span');
+                    x.setAttribute('class' , 'remove');
+                    x.innerHTML = 'x';
+                    x.addEventListener('click' , function (event) {
+                        searching.remove(event);
+                    });
+                    div.appendChild(span);
+                    div.appendChild(x);
+                    document.getElementById('tags').prepend(div);
+                    searching.input.value = '';
 
+                }
             }
             searching.search(searching.tagsDataNames);
 
