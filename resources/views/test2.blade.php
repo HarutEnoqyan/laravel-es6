@@ -51,6 +51,7 @@
 
 <!-- Scripts -->
 <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
+{{--<script type="text/javascript" src="{{ asset('js/test2.js') }}"></script>--}}
 <script type="text/javascript" src="{{ asset('build/test2.js') }}"></script>
 <!-- End Scripts -->
 
