@@ -12,6 +12,7 @@ let searching = {
     tagsCount : 0,
     tagsDataNames : [],
     selectedCategories : [],
+    perPage : 5,
 
     properties : {
         rangeMin : 0,
@@ -95,7 +96,10 @@ let searching = {
         let keyWord = '';
 
         for (item of searching.items) {
-            if(item['name'].indexOf(searching.input.value) > -1 && searching.input.value!=="" && searching.input.value!==" " ){
+            if(item['name'].indexOf(searching.input.value) > -1
+                && searching.input.value !== ""
+                && searching.input.value !== " " ){
+
                 let dataId = item['name'];
                 let li = document.createElement('li');
                 li.setAttribute('data-name' , dataId);
@@ -106,7 +110,11 @@ let searching = {
             }
             for(let j of searching.properties['keywords']){
                 if(typeof j !== "undefined"){
-                    if(j.match(searching.input.value) && searching.input.value!=="" && searching.input.value!==" " && keyWord!==j){
+                    if(j.match(searching.input.value)
+                        && searching.input.value !== ""
+                        && searching.input.value !== " "
+                        && keyWord !== j){
+
                         keyWord = j;
                         let dataId = j;
                         let li = document.createElement('li');
@@ -233,190 +241,89 @@ let searching = {
     search : (names) => {
         document.getElementById('item-box').innerHTML = '';
         for (let item of searching.items) {
-            if(names.indexOf(item['name']) !== -1 && item['price'] >= searching.properties.rangeMin && item['price'] <= searching.properties.rangeMax) {
-                let mainDiv = document.createElement('div');
-                mainDiv.classList.add('col-md-3');
-                let imageDiv = document.createElement('div');
-                imageDiv.classList.add('image');
-                let img = document.createElement('img');
-                img.setAttribute('src',item['thumbnailSrc']);
-                let title = document.createElement('div');
-                title.classList.add('title', 'text-center');
-                title.innerHTML = item['name'];
-                let description = document.createElement('div');
-                description.classList.add('description');
-                description.innerHTML = item['description'];
-                let price = document.createElement('div');
-                price.innerHTML = item['price'] + '$';
-                price.classList.add('price');
-                let span = document.createElement('span');
-                span.innerHTML = 'price : ';
+            if(names.indexOf(item['name']) !== -1
+                && item['price'] >= searching.properties.rangeMin
+                && item['price'] <= searching.properties.rangeMax) {
+                searching.generateHtml(item);
 
-                price.prepend(span);
-                imageDiv.appendChild(img);
-                mainDiv.appendChild(imageDiv);
-                mainDiv.appendChild(title);
-                mainDiv.appendChild(description);
-                mainDiv.appendChild(price);
-
-                document.getElementById('item-box').appendChild(mainDiv);
             }
             for(let keyWord of item['keywords']) {
-                if(names.indexOf(keyWord) !== -1 && item['price'] >= searching.properties.rangeMin && item['price'] <= searching.properties.rangeMax){
-                    let mainDiv = document.createElement('div');
-                    mainDiv.classList.add('col-md-3');
-                    let imageDiv = document.createElement('div');
-                    imageDiv.classList.add('image');
-                    let img = document.createElement('img');
-                    img.setAttribute('src',item['thumbnailSrc']);
-                    let title = document.createElement('div');
-                    title.classList.add('title', 'text-center');
-                    title.innerHTML = item['name'];
-                    let description = document.createElement('div');
-                    description.classList.add('description');
-                    description.innerHTML = item['description'];
-                    let price = document.createElement('div');
-                    price.innerHTML = item['price'] + '$';
-                    price.classList.add('price');
-                    let span = document.createElement('span');
-                    span.innerHTML = 'price : ';
-
-                    price.prepend(span);
-                    imageDiv.appendChild(img);
-                    mainDiv.appendChild(imageDiv);
-                    mainDiv.appendChild(title);
-                    mainDiv.appendChild(description);
-                    mainDiv.appendChild(price);
-
-                    document.getElementById('item-box').appendChild(mainDiv);
+                if(names.indexOf(keyWord) !== -1
+                    && item['price'] >= searching.properties.rangeMin
+                    && item['price'] <= searching.properties.rangeMax){
+                    searching.generateHtml(item);
                 }
             }
-            if(searching.input.value === item['category'] && item['price'] >= searching.properties.rangeMin && item['price'] <= searching.properties.rangeMax) {
-                let mainDiv = document.createElement('div');
-                mainDiv.classList.add('col-md-3');
-                let imageDiv = document.createElement('div');
-                imageDiv.classList.add('image');
-                let img = document.createElement('img');
-                img.setAttribute('src',item['thumbnailSrc']);
-                let title = document.createElement('div');
-                title.classList.add('title', 'text-center');
-                title.innerHTML = item['name'];
-                let description = document.createElement('div');
-                description.classList.add('description');
-                description.innerHTML = item['description'];
-                let price = document.createElement('div');
-                price.innerHTML = item['price'] + '$';
-                price.classList.add('price');
-                let span = document.createElement('span');
-                span.innerHTML = 'price : ';
-
-                price.prepend(span);
-                imageDiv.appendChild(img);
-                mainDiv.appendChild(imageDiv);
-                mainDiv.appendChild(title);
-                mainDiv.appendChild(description);
-                mainDiv.appendChild(price);
-
-                document.getElementById('item-box').appendChild(mainDiv);
+            if(searching.input.value === item['category']
+                && item['price'] >= searching.properties.rangeMin
+                && item['price'] <= searching.properties.rangeMax) {
+               searching.generateHtml(item);
             }
 
         }
     },
-    filterByCategories :(names , categories) => {
+
+     filterByCategories:(names , categories) => {
+        let priceRange = [searching.properties.rangeMin,searching.properties.rangeMax];
+
         if (categories.length === 0) {
             searching.search(searching.tagsDataNames);
             return;
         }
         document.getElementById('item-box').innerHTML = '';
         for (let item of searching.items) {
-            if(names.indexOf(item['name']) !== -1 && item['price'] >= searching.properties.rangeMin && item['price'] <= searching.properties.rangeMax && categories.indexOf(item['category']) !==-1) {
-                let mainDiv = document.createElement('div');
-                mainDiv.classList.add('col-md-3');
-                let imageDiv = document.createElement('div');
-                imageDiv.classList.add('image');
-                let img = document.createElement('img');
-                img.setAttribute('src',item['thumbnailSrc']);
-                let title = document.createElement('div');
-                title.classList.add('title', 'text-center');
-                title.innerHTML = item['name'];
-                let description = document.createElement('div');
-                description.classList.add('description');
-                description.innerHTML = item['description'];
-                let price = document.createElement('div');
-                price.innerHTML = item['price'] + '$';
-                price.classList.add('price');
-                let span = document.createElement('span');
-                span.innerHTML = 'price : ';
-
-                price.prepend(span);
-                imageDiv.appendChild(img);
-                mainDiv.appendChild(imageDiv);
-                mainDiv.appendChild(title);
-                mainDiv.appendChild(description);
-                mainDiv.appendChild(price);
-
-                document.getElementById('item-box').appendChild(mainDiv);
+            if(names.indexOf(item['name']) !== -1
+                && item['price'] >= priceRange[0]
+                && item['price'] <= priceRange[1]
+                && categories.indexOf(item['category']) !==-1) {
+                searching.generateHtml(item);
             }
             for(let keyWord of item['keywords']) {
-                if(names.indexOf(keyWord) !== -1 && item['price'] >= searching.properties.rangeMin && item['price'] <= searching.properties.rangeMax && categories.indexOf(item['category']) !==-1){
-                    let mainDiv = document.createElement('div');
-                    mainDiv.classList.add('col-md-3');
-                    let imageDiv = document.createElement('div');
-                    imageDiv.classList.add('image');
-                    let img = document.createElement('img');
-                    img.setAttribute('src',item['thumbnailSrc']);
-                    let title = document.createElement('div');
-                    title.classList.add('title', 'text-center');
-                    title.innerHTML = item['name'];
-                    let description = document.createElement('div');
-                    description.classList.add('description');
-                    description.innerHTML = item['description'];
-                    let price = document.createElement('div');
-                    price.innerHTML = item['price'] + '$';
-                    price.classList.add('price');
-                    let span = document.createElement('span');
-                    span.innerHTML = 'price : ';
-
-                    price.prepend(span);
-                    imageDiv.appendChild(img);
-                    mainDiv.appendChild(imageDiv);
-                    mainDiv.appendChild(title);
-                    mainDiv.appendChild(description);
-                    mainDiv.appendChild(price);
-
-                    document.getElementById('item-box').appendChild(mainDiv);
+                if(names.indexOf(keyWord) !== -1
+                    && item['price'] >= priceRange[0]
+                    && item['price'] <= priceRange[1]
+                    && categories.indexOf(item['category']) !==-1){
+                    searching.generateHtml(item)
                 }
             }
-            if(searching.input.value === item['category'] && item['price'] >= searching.properties.rangeMin && item['price'] <= searching.properties.rangeMax && categories.indexOf(item['category']) !==-1) {
-                let mainDiv = document.createElement('div');
-                mainDiv.classList.add('col-md-3');
-                let imageDiv = document.createElement('div');
-                imageDiv.classList.add('image');
-                let img = document.createElement('img');
-                img.setAttribute('src',item['thumbnailSrc']);
-                let title = document.createElement('div');
-                title.classList.add('title', 'text-center');
-                title.innerHTML = item['name'];
-                let description = document.createElement('div');
-                description.classList.add('description');
-                description.innerHTML = item['description'];
-                let price = document.createElement('div');
-                price.innerHTML = item['price'] + '$';
-                price.classList.add('price');
-                let span = document.createElement('span');
-                span.innerHTML = 'price : ';
+            if(searching.input.value === item['category']
+                && item['price'] >= priceRange[0]
+                && item['price'] <= priceRange[1]
+                && categories.indexOf(item['category']) !==-1) {
 
-                price.prepend(span);
-                imageDiv.appendChild(img);
-                mainDiv.appendChild(imageDiv);
-                mainDiv.appendChild(title);
-                mainDiv.appendChild(description);
-                mainDiv.appendChild(price);
-
-                document.getElementById('item-box').appendChild(mainDiv);
+                searching.generateHtml(item)
             }
 
         }
+    },
+
+    generateHtml : (item) => {
+        let mainDiv = document.createElement('div');
+        mainDiv.classList.add('col-md-3');
+        let imageDiv = document.createElement('div');
+        imageDiv.classList.add('image');
+        let img = document.createElement('img');
+        img.setAttribute('src',item['thumbnailSrc']);
+        let title = document.createElement('div');
+        title.classList.add('title', 'text-center');
+        title.innerHTML = item['name'];
+        let description = document.createElement('div');
+        description.classList.add('description');
+        description.innerHTML = item['description'];
+        let price = document.createElement('div');
+        price.innerHTML = item['price'] + '$';
+        price.classList.add('price');
+        let span = document.createElement('span');
+        span.innerHTML = 'price : ';
+
+        price.prepend(span);
+        imageDiv.appendChild(img);
+        mainDiv.appendChild(imageDiv);
+        mainDiv.appendChild(title);
+        mainDiv.appendChild(description);
+        mainDiv.appendChild(price);
+
+        document.getElementById('item-box').appendChild(mainDiv);
     },
 
     remove : (event) => {
@@ -424,7 +331,6 @@ let searching = {
         let dataName = div.getAttribute('data-name');
         let index = searching.tagsDataNames.indexOf(dataName);
         searching.tagsDataNames.splice(index , 1);
-        // searching.tagsCount--;
         div.remove();
         searching.search(searching.tagsDataNames);
     },
@@ -466,7 +372,6 @@ searching.input.addEventListener('keyup' , (event) => {
 searching.input.addEventListener('keydown' , (event) => {
     searching.inputEvent(event)
 });
-
 
 
 
