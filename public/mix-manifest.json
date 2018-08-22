@@ -1,5 +1,7 @@
 {
     "/js/app.js": "/js/app.js",
     "/css/app.css": "/css/app.css",
-    "/build/main.js": "/build/main.js"
+    "/build/test2.js": "/build/test2.js",
+    "/build/main.js": "/build/main.js",
+    "/css/nouislider.min.css": "/css/nouislider.min.css"
 }

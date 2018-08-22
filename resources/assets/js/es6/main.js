@@ -32,13 +32,13 @@ let car = {
     },
 
     roadMoving : function () {
-        this.right-=5 ;
-        this.wheelRotate+=5;
+        this.right -= 5 ;
+        this.wheelRotate += 5;
         if (this.right <= -323 ) {
             this.right = 0;
         }
-        if(this.wheelRotate >=1440){
-            this.wheelRotate=0;
+        if(this.wheelRotate >= 1440){
+            this.wheelRotate = 0;
         }
         this.lines.style.transform = `translateX(${this.right}px)`;
         for (let wheel of this.wheels){
@@ -48,24 +48,23 @@ let car = {
 
     createTraps : () => {
         let trapPosition = Math.floor(Math.random()*2);
-        if(document.querySelector('.trap')!=null){
+        if(document.querySelector('.trap') != null){
             document.querySelector('.trap').remove();
         }
         let div = document.createElement('div');
         div.setAttribute('class','trap');
         divPosition = -130;
-        if (trapPosition ===1){
+        if (trapPosition === 1){
             div.style.top = 50+'px';
         }else {
             div.style.top = 260+'px';
         }
         window.clearInterval(car.interval2);
-
-        car.interval2 = setInterval(()=>{
-            divPosition+=5;
-            div.style.right = divPosition+'px';
-            if(divPosition===1255 && trapPosition===car.carPosition) {
-                setTimeout(()=>{
+        car.interval2 = setInterval(() => {
+            divPosition += 5;
+            div.style.right = divPosition + 'px';
+            if(divPosition === 1255 && trapPosition === car.carPosition) {
+                setTimeout(() => {
                     alert('you lose')
                 },100)
             }

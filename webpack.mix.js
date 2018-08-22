@@ -13,4 +13,6 @@ let mix = require('laravel-mix');
 
 mix.js('resources/assets/js/app.js', 'public/js')
     .js('resources/assets/js/es6/main.js', 'public/build')
+    .copy('node_modules/nouislider/distribute/nouislider.min.css', 'public/css')
+    .js('resources/assets/js/es6/test2.js', 'public/build')
    .sass('resources/assets/sass/app.scss', 'public/css');

@@ -1,4 +1,5 @@
 window.Popper = require('popper.js').default;
+window.noUiSlider = require('nouislider');
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
@@ -8,6 +9,5 @@ window.Popper = require('popper.js').default;
 
 try {
     window.$ = window.jQuery = require('jquery');
-
     require('bootstrap');
 } catch (e) {}
